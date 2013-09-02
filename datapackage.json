@@ -2,6 +2,7 @@
     "name": "landnr",
     "title": "Landnúmer from Staðfangaskrá",
     "description": "Landnúmer (unique codes for individual plots of land) for Iceland. Each record holds a landnúmer, its post code, and the longitude and latitude for the plot's centre point.",
+    "last_modified": "2013-09-02",
     "datapackage_version": "0.1.0",
     "sources": [{
         "name": "Þjóðskrá",
