@@ -1,0 +1,34 @@
+{
+    "name": "landnr",
+    "title": "Landnúmer from Staðfangaskrá",
+    "description": "Landnúmer (unique codes for individual plots of land) for Iceland. Each record holds a landnúmer, its post code, and the longitude and latitude for the plot's centre point.",
+    "datapackage_version": "0.1.0",
+    "sources": [{
+        "name": "Þjóðskrá",
+        "web": "http://opingogn.is/dataset/stadfangaskra"
+    }],
+    "resources": [
+        {
+            "path": "data/landnr.json",
+            "schema": {
+                "fields": [
+                    {
+                        "id": "landnr",
+                        "label": "Landnúmer",
+                        "type": "integer"
+                    },
+                    {
+                        "id": "postcode",
+                        "label": "Post code",
+                        "type": "integer"
+                    },
+                    {
+                        "id": "ll",
+                        "label": "Longitude and latitude",
+                        "type": "geopoint"
+                    }
+                ]
+            }
+        }
+    ]
+}
