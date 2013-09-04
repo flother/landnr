@@ -19,6 +19,12 @@
                         "type": "integer"
                     },
                     {
+                        "id": "thjodskra_id",
+                        "label": "Þjóðskrá id",
+                        "description": "Unique property id used by Þjóðskrá",
+                        "type": "integer"
+                    },
+                    {
                         "id": "street",
                         "label": "Street address",
                         "type": "string"

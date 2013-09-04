@@ -10,9 +10,13 @@ landnúmer is not necessarily unique (if there are three buildings on a plot of
 land, for example, the buildings will share the landnúmer) but the combination
 of street address and landnúmer is.
 
+Each record includes a "thjodskra_id", which contains the unique building id
+used by Þjóðskrá. This will always have a one-to-one relationship with the
+street address and landnúmer pair.
+
 This file is a version of the Staðfangaskrá (address registry) provided by
-Þjóðskrá, whittled down to a bare minimum. Each record contains a landnúmer, its
-post code and longitude and latitude.
+Þjóðskrá, whittled down to a bare minimum. Each record contains five fields:
+landnúmer, Þjóðskrá id, street address, post code, and longitude and latitude.
 
 The source is [available from the Icelandic government's open data portal] [1],
 and is released under an (unspecified) open data licence.
