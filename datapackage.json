@@ -19,6 +19,11 @@
                         "type": "integer"
                     },
                     {
+                        "id": "street",
+                        "label": "Street address",
+                        "type": "string"
+                    },
+                    {
                         "id": "postcode",
                         "label": "Post code",
                         "type": "integer"

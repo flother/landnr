@@ -6,6 +6,7 @@ import os
 import zipfile
 
 import requests
+import unicodecsv
 
 
 LAND_PLOT_DATA_URL = "http://skra.is/lisalib/getfile.aspx?itemid=8424"
@@ -32,13 +33,14 @@ def unzip(zip_contents):
 def iter_rows(land_plot_data):
     """
     Opens the given file-like object as a CSV file delimited by pipes,
-    and yields a list for each row containing the land plot number
-    and its post code, latitude, and longitude.
+    and yields a list for each row containing the land plot number,
+    street address, post code, and latitude, and longitude.
     """
-    reader = csv.reader(land_plot_data, delimiter="|")
+    reader = unicodecsv.reader(land_plot_data, delimiter="|", encoding="latin1")
     reader.next()  # Skip header row.
     for row in reader:
         land_plot_number = int(row[3])
+        street_address = u" ".join(row[5].split())  # Normalise whitespace.
         try:
             post_code = int(row[7])
         except ValueError:
@@ -48,6 +50,7 @@ def iter_rows(land_plot_data):
         longitude, latitude = isnet93_to_wgs84(isn93_x, isn93_y)
         yield {
             "landnr": land_plot_number,
+            "street": street_address,
             "postcode": post_code,
             "ll": [longitude, latitude],
         }

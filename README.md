@@ -1,8 +1,14 @@
 Minimal data on Icelandic landnúmer.
 
 A landnúmer is a unique identifer for each plot of land containing a building;
-every building in the country has one of these ids. They're maintained by
+every such plot in the country has one of these ids. They're maintained by
 Þjóðskrá, the National Registry of Iceland.
+
+Each building in the country can be uniquely identified by its street address
+and landnúmer. This data package contains a record for each building; a
+landnúmer is not necessarily unique (if there are three buildings on a plot of
+land, for example, the buildings will share the landnúmer) but the combination
+of street address and landnúmer is.
 
 This file is a version of the Staðfangaskrá (address registry) provided by
 Þjóðskrá, whittled down to a bare minimum. Each record contains a landnúmer, its
