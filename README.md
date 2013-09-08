@@ -38,12 +38,12 @@ corresponds to a building and is in the following format:
       "landnr": 105983,
       "heitinr": 1000864,
       "street": "Aflagrandi 21",
-      "postcode": 107
+      "postcode": 107,
       "ll": [
         -21.961317,
         64.147867
-      ],
-    },
+      ]
+    }
 
 Definitions of each attribute in an object:
 
