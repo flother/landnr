@@ -10,7 +10,7 @@ maintained by Þjóðskrá, the National Registry of Iceland.
 
 Each building in the country should in theory be uniquely identifiable by a its
 street address and landnúmer, although in practice this isn't true because the
-data isn't accurate enough. Hence the building id, also provider by Þjóðskrá,
+data isn't accurate enough. Hence the building id, also provided by Þjóðskrá,
 which does uniquely identify a building.
 
 This file is a version of the Staðfangaskrá (address registry) provided by
