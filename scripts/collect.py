@@ -33,12 +33,13 @@ def iter_rows(building_data):
     """
     Opens the given file-like object as a CSV file delimited by pipes,
     and yields a list for each row containing the land plot number,
-    street address, post code, and latitude, and longitude.
+    building id, street address, post code, and latitude, and longitude.
     """
     reader = unicodecsv.reader(building_data, delimiter="|", encoding="latin1")
     reader.next()  # Skip header row.
     for row in reader:
         land_plot_number = int(row[3])
+        building_id = int(row[4])
         street_address = u" ".join(row[5].split())  # Normalise whitespace.
         try:
             post_code = int(row[7])
@@ -49,6 +50,7 @@ def iter_rows(building_data):
         longitude, latitude = isnet93_to_wgs84(isn93_x, isn93_y)
         yield {
             "landnr": land_plot_number,
+            "building_id": building_id,
             "street": street_address,
             "postcode": post_code,
             "ll": [longitude, latitude],
