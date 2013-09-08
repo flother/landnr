@@ -1,5 +1,4 @@
 from cStringIO import StringIO
-import csv
 import json
 import math
 import os
