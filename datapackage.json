@@ -1,7 +1,7 @@
 {
     "name": "landnr",
     "title": "Landnúmer from Staðfangaskrá",
-    "description": "Building records for Iceland. Each record holds a landnúmer (land plot id), building id, street address, post code, and the longitude and latitude for the building's centre point. Each building can be uniquely identified using a combination of the landnúmer and street address.",
+    "description": "Building records for Iceland. Each record holds a landnúmer (land plot id), heitinúmer (building id), street address, post code, and the longitude and latitude for the building's centre point. Each building can be uniquely identified using a combination of the landnúmer and street address.",
     "last_modified": "2013-09-02",
     "datapackage_version": "0.1.3",
     "sources": [{
@@ -19,7 +19,7 @@
                         "type": "integer"
                     },
                     {
-                        "id": "building_id",
+                        "id": "heitinr",
                         "label": "Building id",
                         "type": "integer"
                     },

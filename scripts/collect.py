@@ -51,7 +51,7 @@ def iter_rows(building_data):
         longitude, latitude = isnet93_to_wgs84(isn93_x, isn93_y)
         yield {
             "landnr": land_plot_number,
-            "building_id": building_id,
+            "heitinr": building_id,
             "street": street_address,
             "postcode": post_code,
             "ll": (longitude, latitude),
@@ -120,7 +120,7 @@ if __name__ == "__main__":
     for building in iter_rows(building_data):
         building_attrs = (
             hash(building["landnr"]) ^
-            hash(building["building_id"]) ^
+            hash(building["heitinr"]) ^
             hash(building["street"]) ^
             hash(building["postcode"]) ^
             hash(building["ll"])
