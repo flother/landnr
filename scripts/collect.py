@@ -110,8 +110,11 @@ def isnet93_to_wgs84(xx, yy):
 
 
 if __name__ == "__main__":
+    print "Downloading data ..."
     zip_contents = get_url_content(BUILDING_DATA_URL)
+    print "Unzipping data ..."
     building_data = unzip(zip_contents)
+    print "Parsing data ..."
     buildings = []
     unique_buildings = set()
     for building in iter_rows(building_data):
@@ -131,6 +134,8 @@ if __name__ == "__main__":
     base_path = os.path.dirname(__file__)
     file_path = os.path.abspath(os.path.join(base_path, "..", "data",
         "landnr.json"))
+    print "Saving data to file ..."
     fp = open(file_path, "w")
     json.dump(buildings, fp, indent=2, separators=(",", ": "))
     fp.close()
+    print "Done."
