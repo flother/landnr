@@ -8,7 +8,7 @@ import requests
 import unicodecsv
 
 
-LAND_PLOT_DATA_URL = "http://skra.is/lisalib/getfile.aspx?itemid=8424"
+BUILDING_DATA_URL = "http://skra.is/lisalib/getfile.aspx?itemid=8424"
 
 
 def get_url_content(url):
@@ -29,18 +29,16 @@ def unzip(zip_contents):
     raise ValueError("zip file contains %d files" % len(filenames))
 
 
-def iter_rows(land_plot_data):
+def iter_rows(building_data):
     """
     Opens the given file-like object as a CSV file delimited by pipes,
     and yields a list for each row containing the land plot number,
-    street address, post code, and latitude, and longitude. Also
-    included is Thjodskra's own unique id.
+    street address, post code, and latitude, and longitude.
     """
-    reader = unicodecsv.reader(land_plot_data, delimiter="|", encoding="latin1")
+    reader = unicodecsv.reader(building_data, delimiter="|", encoding="latin1")
     reader.next()  # Skip header row.
     for row in reader:
         land_plot_number = int(row[3])
-        thjodskra_id = int(row[4])
         street_address = u" ".join(row[5].split())  # Normalise whitespace.
         try:
             post_code = int(row[7])
@@ -51,7 +49,6 @@ def iter_rows(land_plot_data):
         longitude, latitude = isnet93_to_wgs84(isn93_x, isn93_y)
         yield {
             "landnr": land_plot_number,
-            "thjodskra_id": thjodskra_id,
             "street": street_address,
             "postcode": post_code,
             "ll": [longitude, latitude],
@@ -110,15 +107,15 @@ def isnet93_to_wgs84(xx, yy):
 
 
 if __name__ == "__main__":
-    zip_contents = get_url_content(LAND_PLOT_DATA_URL)
-    land_plot_data = unzip(zip_contents)
-    land_plots = []
-    for land_plot in iter_rows(land_plot_data):
-        land_plots.append(land_plot)
-    # Save the land plot data as a JSON file.
+    zip_contents = get_url_content(BUILDING_DATA_URL)
+    building_data = unzip(zip_contents)
+    buildings = []
+    for building in iter_rows(building_data):
+        buildings.append(building)
+    # Save the building data as a JSON file.
     base_path = os.path.dirname(__file__)
     file_path = os.path.abspath(os.path.join(base_path, "..", "data",
         "landnr.json"))
     fp = open(file_path, "w")
-    json.dump(land_plots, fp, indent=2, separators=(",", ": "))
+    json.dump(buildings, fp, indent=2, separators=(",", ": "))
     fp.close()
