@@ -2,6 +2,7 @@ from cStringIO import StringIO
 import json
 import math
 import os
+import sys
 import zipfile
 
 import requests
@@ -53,7 +54,7 @@ def iter_rows(building_data):
             "building_id": building_id,
             "street": street_address,
             "postcode": post_code,
-            "ll": [longitude, latitude],
+            "ll": (longitude, latitude),
         }
 
 
@@ -112,8 +113,20 @@ if __name__ == "__main__":
     zip_contents = get_url_content(BUILDING_DATA_URL)
     building_data = unzip(zip_contents)
     buildings = []
+    unique_buildings = set()
     for building in iter_rows(building_data):
-        buildings.append(building)
+        building_attrs = (
+            hash(building["landnr"]) ^
+            hash(building["building_id"]) ^
+            hash(building["street"]) ^
+            hash(building["postcode"]) ^
+            hash(building["ll"])
+        )
+        if building_attrs in unique_buildings:
+            print >> sys.stderr, "Skipping duplicate row: %s." % building
+        else:
+            buildings.append(building)
+            unique_buildings.add(building_attrs)
     # Save the building data as a JSON file.
     base_path = os.path.dirname(__file__)
     file_path = os.path.abspath(os.path.join(base_path, "..", "data",
