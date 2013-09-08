@@ -14,9 +14,9 @@ LAND_PLOT_DATA_URL = "http://skra.is/lisalib/getfile.aspx?itemid=8424"
 def get_url_content(url):
     """Returns the response content of the given URL."""
     response = requests.get(url)
-    if response.ok:
-        return response.content
-    raise ValueError("URL returned status code %d" % response.status_code)
+    if not response.ok:
+        response.raise_for_status()
+    return response.content
 
 
 def unzip(zip_contents):
