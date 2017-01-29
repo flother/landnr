@@ -1,4 +1,3 @@
-from cStringIO import StringIO
 import json
 import math
 import os
@@ -6,23 +5,28 @@ import sys
 import zipfile
 
 import requests
+from ftplib import FTP
 import unicodecsv
 
 
 BUILDING_DATA_URL = "http://skra.is/lisalib/getfile.aspx?itemid=8424"
+FTP_SERVER = "ftp.skra.is"
+FTP_DIRECTORY = "/skra/"
+FTP_FILENAME = "STADFANG.dsv.zip"
 
 
-def get_url_content(url):
-    """Returns the response content of the given URL."""
-    response = requests.get(url)
-    if not response.ok:
-        response.raise_for_status()
-    return response.content
+def get_zip_file_from_ftp_server(server, directory, filename):
+    with open(filename, "w") as f:
+        ftp = FTP(server)
+        ftp.login(passwd="nothing", user="anonymous")
+        ftp.cwd(directory)
+        ftp.retrbinary('RETR %s' % filename, f.write)
+        return filename
 
 
-def unzip(zip_contents):
+def unzip(filename):
     """Returns the given string, unzipped."""
-    zip_file = zipfile.ZipFile(StringIO(zip_contents))
+    zip_file = zipfile.ZipFile(filename)
     filenames = zip_file.namelist()
     if len(filenames) == 1:
         data = zip_file.open(filenames[0], "rU")
@@ -111,7 +115,9 @@ def isnet93_to_wgs84(xx, yy):
 
 if __name__ == "__main__":
     print "Downloading data ..."
-    zip_contents = get_url_content(BUILDING_DATA_URL)
+    zip_contents = get_zip_file_from_ftp_server(FTP_SERVER,
+                                                FTP_DIRECTORY,
+                                                FTP_FILENAME)
     print "Unzipping data ..."
     building_data = unzip(zip_contents)
     print "Parsing data ..."
@@ -132,10 +138,15 @@ if __name__ == "__main__":
             unique_buildings.add(building_attrs)
     # Save the building data as a JSON file.
     base_path = os.path.dirname(__file__)
-    file_path = os.path.abspath(os.path.join(base_path, "..", "data",
-        "landnr.json"))
+    file_path = os.path.abspath(os.path.join(base_path,
+                                             "..",
+                                             "data",
+                                             "landnr.json"))
     print "Saving data to file ..."
     fp = open(file_path, "w")
     json.dump(buildings, fp, indent=2, separators=(",", ": "))
     fp.close()
+    print "Removing zip file"
+    os.remove(zip_contents)
+
     print "Done."
